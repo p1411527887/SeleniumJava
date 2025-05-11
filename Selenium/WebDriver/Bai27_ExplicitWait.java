@@ -1,11 +1,9 @@
 package WebDriver;
 
-import net.bytebuddy.pool.TypePool;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -14,7 +12,7 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-public class TestcaseMau {
+public class Bai27_ExplicitWait {
     WebDriver driver;
     WebDriverWait explicitWait;
 
@@ -28,8 +26,20 @@ public class TestcaseMau {
     }
 
     @Test
-    public void TC_01_ImLicitWait() {
+    public void TC_01_ImLicitWait() throws InterruptedException {
+    driver.get("https://demos.telerik.com/aspnet-ajax/ajaxloadingpanel/functionality/explicit-show-hide/defaultcs.aspx");
 
+    explicitWait.until(ExpectedConditions.visibilityOfElementLocated
+            (By.xpath("//div[@class='contentWrapper']")));
+
+    Assert.assertTrue(explicitWait.until(ExpectedConditions.visibilityOfElementLocated
+            (By.xpath("//div[@class='contentWrapper']"))).isDisplayed());
+
+    explicitWait.until(ExpectedConditions.elementToBeClickable
+            (By.xpath("//td[@title='Tuesday, May 20, 2025']"))).click();
+
+    Assert.assertTrue(explicitWait.until(ExpectedConditions.textToBe
+            (By.xpath("//span[@class='label']"),"Tuesday, May 20, 2025")));
     }
 
     @Test
@@ -42,7 +52,7 @@ public class TestcaseMau {
 
     }
 
-    @AfterClass(alwaysRun = true)
+    @AfterClass
     public void cleanBrower(){
         driver.quit();
     }
